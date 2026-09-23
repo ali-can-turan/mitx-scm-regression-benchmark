@@ -7,6 +7,10 @@
 
 ---
 
+[See the full project](sca_ML.pdf)
+
+---
+
 ## 📌 Project Overview
 
 This repository reproduces and expands upon the baseline linear regression framework introduced in the **MITx MicroMasters in Supply Chain Management (SC0x: Supply Chain Analytics)** course. 
@@ -30,9 +34,11 @@ Using the course's underlying dataset ($N=100$), this benchmark compares two dis
 | Model | Pipeline Architecture | Train (CV) $R^2$ | Validation $R^2$ | Train $R^2$ | Test $R^2$ | Test Adj. $R^2$ | Relative Bias (NMB) | Unit Interpretability |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **ML-1 (Winner)** | **Business Logic + Unscaled Features** | **0.84** | **0.80** | **0.83** | **0.72** | **0.71** | **~1.8%** | **Full (Native Units)** |
-| ML-2 | Scaled + Poly(d=3) + `LassoCV` | 0.84 | 0.80 | 0.86 | 0.58 | 0.55 | ~2.3% | Lost (Standardized) |
+| ML-2 | Scaled + Poly(d=3) + `LassoCV` | 0.84 | 0.80 | 0.87 | 0.62 | 0.60 | ~2.8% | Lost (Standardized) |
 
-*Note: Models were evaluated on a 90/10 split ($N_{\text{train}}=90, N_{\text{test}}=10$) with 5-fold cross-validation during training.*
+*Note: Models were evaluated on a 90/10 split with 5-fold cross-validation during training.*
+
+*Note: From ML-2, the results of the pipe with the best validation score are presented above. For the full results, including the alternative with less polynomial degree and unscaling, please refer to the notebook [here](sca_ML.pdf) or [here](sca_ML.ipynb).*  
 
 ---
 
@@ -51,7 +57,7 @@ A brute-force hyperparameter search across **1,250 execution runs** was implemen
 * Scaled (`StandardScaler`) vs. Unscaled (`passthrough`) pipeline paths.
 * Multi-grid $L_1$ regularization penalties ($\alpha$ parameters).
 
-> **Key Discovery:** Unconstrained hyperparameter tuning resulted in severe overfitting—causing a **22% performance drop** in Test Adjusted $R^2$ (falling from **0.71** in ML-1 down to **0.55** in ML-2).
+> **Key Discovery:** Unconstrained hyperparameter tuning resulted in severe overfitting—causing a **15% performance drop** in Test Adjusted $R^2$ (falling from **0.71** in ML-1 down to **0.60** in ML-2).
 
 ### 3. Residual Diagnostics ($N_{\text{test}}=10$)
 Due to low statistical power at $N_{\text{test}}=10$, formal hypothesis testing (e.g., Shapiro-Wilk, Breusch-Pagan) was substituted with qualitative diagnostic evaluations:
